@@ -1,0 +1,8 @@
+{
+  "name": "telegram-twitch-chat-bot",
+  "version": "0.0.1",
+  "main": "app.js",
+  "dependencies": {
+    "node-telegram-bot": "^0.1.9"
+  }
+}
