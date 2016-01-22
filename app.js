@@ -5,7 +5,7 @@ var fs = require('fs');
 var bot = new Bot({
   token: '153309606:AAHzkcWyLaBAxvHwdq_gjKzJX5XIWOqcYK0'
 })
-.on('showAllStickers', function(message) {
+.on('showallstickers', function(message) {
     var str = '';
     for (key in data){
         str += key+" \n"
@@ -20,7 +20,7 @@ var bot = new Bot({
 //
 // ADD STICKER
 //
-.on('addSticker', function(message) {
+.on('addsticker', function(message) {
     bot.sendMessage({
         chat_id: message.chat.id,
         text: 'please tell me your phrase',
