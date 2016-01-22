@@ -5,6 +5,21 @@ var fs = require('fs');
 var bot = new Bot({
   token: '153309606:AAHzkcWyLaBAxvHwdq_gjKzJX5XIWOqcYK0'
 })
+.on('showAllStickers', function(message) {
+    var str = '';
+    for (key in data){
+        str += key+" \n"
+    }
+    bot.sendMessage({
+        chat_id: message.chat.id,
+        text: str
+    }, function(err, res) {
+        if(err) return console.error(err);
+    });
+})
+//
+// ADD STICKER
+//
 .on('addSticker', function(message) {
     bot.sendMessage({
         chat_id: message.chat.id,
@@ -14,18 +29,6 @@ var bot = new Bot({
             force_reply: true,
             selective: true
         }
-    }, function(err, res) {
-        if(err) return console.error(err);
-    });
-})
-.on('showAllStickers', function(message) {
-    var str = '';
-    for (key in data){
-        str += key+" \n"
-    }
-    bot.sendMessage({
-        chat_id: message.chat.id,
-        text: str
     }, function(err, res) {
         if(err) return console.error(err);
     });
@@ -72,24 +75,29 @@ var bot = new Bot({
             }
         });
     }
-
+    //
+    // normal Twitch Chat Stuff search for phrases and send Stickers
+    //
     console.log(message);
     if(message.text) {
-        str = message.text;
+        var str = message.text;
         for (key in data){
             for (var i = 0; i < 10; i++) {
+                var found = str.search(key);
                 if (str.search(key)>=0) {
-                    bot.sendSticker({
-                        chat_id: message.chat.id,
-                        file_id: data[key]
-                    }, function(err, res) {
-                        if(err) return console.error(err);
-                    });
-                    str = str.replace(key,'');
-                    console.log(" \n send Sticker: "+key+" \n")
-                }
-                else {
-                    break;
+                    if (((found == 0)||(str[found-1] == ' '))&&((found+key.length == str.length)||(str[found+key.length] == ' ')))
+                    {
+                        bot.sendSticker({
+                            chat_id: message.chat.id,
+                            file_id: data[key]
+                        }, function(err, res) {
+                            if(err) return console.error(err);
+                        });
+                        str = str.replace(key,'');
+                        console.log(" \n send Sticker: "+key+" \n")
+                    }
+                } else {
+                    i += 10;
                 }
             }
         }
