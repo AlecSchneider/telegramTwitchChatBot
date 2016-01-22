@@ -9,9 +9,23 @@ var bot = new Bot({
     bot.sendMessage({
         chat_id: message.chat.id,
         text: 'please tell me your phrase',
+        reply_to_message_id: message.message_id,
         reply_markup: {
-            force_reply: true
+            force_reply: true,
+            selective: true
         }
+    }, function(err, res) {
+        if(err) return console.error(err);
+    });
+})
+.on('showAllStickers', function(message) {
+    var str = '';
+    for (key in data){
+        str += key+" \n"
+    }
+    bot.sendMessage({
+        chat_id: message.chat.id,
+        text: str
     }, function(err, res) {
         if(err) return console.error(err);
     });
@@ -25,9 +39,11 @@ var bot = new Bot({
                     console.log('adding new phrase');
                     bot.sendMessage({
                         chat_id: message.chat.id,
+                        reply_to_message_id: message.message_id,
                         text: 'please tell me the sticker you want to attach to the phrase: "'+message.text+'"',
                         reply_markup: {
-                            force_reply: true
+                            force_reply: true,
+                            selective: true
                         }
                     }, function(err, res) {
                         if(err) return console.error(err);
@@ -59,15 +75,22 @@ var bot = new Bot({
 
     console.log(message);
     if(message.text) {
+        str = message.text;
         for (key in data){
-            if (message.text.search(key)>=0){
-                bot.sendSticker({
-                    chat_id: message.chat.id,
-                    file_id: data[key]
-                }, function(err, res) {
-                    if(err) return console.error(err);
-                });
-                console.log(" \n send Sticker: "+key+" \n")
+            for (var i = 0; i < 10; i++) {
+                if (str.search(key)>=0) {
+                    bot.sendSticker({
+                        chat_id: message.chat.id,
+                        file_id: data[key]
+                    }, function(err, res) {
+                        if(err) return console.error(err);
+                    });
+                    str = str.replace(key,'');
+                    console.log(" \n send Sticker: "+key+" \n")
+                }
+                else {
+                    break;
+                }
             }
         }
     }
