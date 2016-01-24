@@ -9,16 +9,19 @@ var bot = new Bot({
 // SHOW LIST OF ALL PHRASES IN CHAT
 //
 .on('showallstickers', function(message) {
-    var str = '';
-    for (key in data){
-        str += key+" \n"
+    if(data[message.chat.id])
+    {
+        var str = '';
+        for (key in data[message.chat.id]){
+            str += key+" \n"
+        }
+        bot.sendMessage({
+            chat_id: message.chat.id,
+            text: str
+        }, function(err, res) {
+            if(err) return console.error(err);
+        });
     }
-    bot.sendMessage({
-        chat_id: message.chat.id,
-        text: str
-    }, function(err, res) {
-        if(err) return console.error(err);
-    });
 })
 //
 // REMOVE STICKER
@@ -33,7 +36,7 @@ var bot = new Bot({
             }, function(err, res) {
                 if(err) return console.error(err);
             });
-        } else if (!data[args[0]]) {
+        } else if (!data[message.chat.id][args[0]]) {
             bot.sendMessage({
                 chat_id: message.chat.id,
                 reply_to_message_id: message.message_id,
@@ -42,8 +45,8 @@ var bot = new Bot({
                 if(err) return console.error(err);
             });
         } else {
-            delete data[args[0]];
-            fs.writeFile('./data.json', JSON.stringify(data), function(err) {
+            delete data[message.chat.id][args[0]];
+            fs.writeFile('./data[message.chat.id].json', JSON.stringify(data[message.chat.id]), function(err) {
                 if (err) return console.log(err);
                 bot.sendMessage({
                     chat_id: message.chat.id,
@@ -88,6 +91,7 @@ var bot = new Bot({
     {
         bot.getMe(function(err, res){
             if (message.reply_to_message.from.id == res.id) {
+                // ADD STICKER
                 if (message.reply_to_message.text == 'please tell me your phrase'){
                     console.log('adding new phrase');
                     bot.sendMessage({
@@ -104,7 +108,11 @@ var bot = new Bot({
                 } else if (message.sticker && message.reply_to_message.text.search('please tell me the sticker you want to attach to the phrase: ')>=0) {
                     var str = message.reply_to_message.text;
                     var newPhrase = str.slice(62, str.length-1);
-                    data[newPhrase] = message.sticker.file_id;
+                    if (!data[message.chat.id])
+                    {
+                        data[message.chat.id] = {};
+                    }
+                    data[message.chat.id][newPhrase] = message.sticker.file_id;
                     fs.writeFile('./data.json', JSON.stringify(data), function(err) {
                         if (err) return console.log(err);
                         bot.sendMessage({
@@ -120,8 +128,9 @@ var bot = new Bot({
                             });
                         });
                     });
+                // DELETE STICKER
                 } else if (message.reply_to_message.text == 'please tell me the sticker you want to delete') {
-                    if (!data[message.text]) {
+                    if (!data[message.chat.id][message.text]) {
                         bot.sendMessage({
                             chat_id: message.chat.id,
                             reply_to_message_id: message.message_id,
@@ -130,8 +139,8 @@ var bot = new Bot({
                             if(err) return console.error(err);
                         });
                     } else {
-                        delete data[message.text];
-                        fs.writeFile('./data.json', JSON.stringify(data), function(err) {
+                        delete data[message.chat.id][message.text];
+                        fs.writeFile('./data[message.chat.id].json', JSON.stringify(data[message.chat.id]), function(err) {
                             if (err) return console.log(err);
                             bot.sendMessage({
                                 chat_id: message.chat.id,
@@ -151,7 +160,7 @@ var bot = new Bot({
     console.log(message);
     if(message.text) {
         var str = message.text;
-        for (key in data){
+        for (key in data[message.chat.id]){
             for (var i = 0; i < 10; i++) {
                 var found = str.search(key);
                 if (str.search(key)>=0) {
@@ -159,7 +168,7 @@ var bot = new Bot({
                     {
                         bot.sendSticker({
                             chat_id: message.chat.id,
-                            file_id: data[key]
+                            file_id: data[message.chat.id][key]
                         }, function(err, res) {
                             if(err) return console.error(err);
                         });
