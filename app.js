@@ -27,7 +27,7 @@ var bot = new Bot({
 // REMOVE STICKER
 //
 .on('removesticker', function(message, args) {
-    if (args) {
+    if (args && data[message.chat.id]) {
         if (args.length > 1) {
             bot.sendMessage({
                 chat_id: message.chat.id,
@@ -40,13 +40,13 @@ var bot = new Bot({
             bot.sendMessage({
                 chat_id: message.chat.id,
                 reply_to_message_id: message.message_id,
-                text: 'cannot find the Sticker',
+                text: 'cannot find the Sticker: "'+args[0]+'"',
             }, function(err, res) {
                 if(err) return console.error(err);
             });
         } else {
             delete data[message.chat.id][args[0]];
-            fs.writeFile('./data[message.chat.id].json', JSON.stringify(data[message.chat.id]), function(err) {
+            fs.writeFile('./data.json', JSON.stringify(data), function(err) {
                 if (err) return console.log(err);
                 bot.sendMessage({
                     chat_id: message.chat.id,
@@ -140,7 +140,7 @@ var bot = new Bot({
                         });
                     } else {
                         delete data[message.chat.id][message.text];
-                        fs.writeFile('./data[message.chat.id].json', JSON.stringify(data[message.chat.id]), function(err) {
+                        fs.writeFile('./data.json', JSON.stringify(data), function(err) {
                             if (err) return console.log(err);
                             bot.sendMessage({
                                 chat_id: message.chat.id,
