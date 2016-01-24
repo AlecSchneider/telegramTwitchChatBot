@@ -90,6 +90,9 @@ var bot = new Bot({
     if (!data[message.chat.id])
     {
         data[message.chat.id] = {};
+        fs.writeFile('./data.json', JSON.stringify(data), function(err) {
+            if (err) return console.log(err);
+        }
     }
 
     if (message.reply_to_message)
