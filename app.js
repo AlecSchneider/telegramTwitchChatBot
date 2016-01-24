@@ -87,6 +87,11 @@ var bot = new Bot({
     });
 })
 .on('message', function (message) {
+    if (!data[message.chat.id])
+    {
+        data[message.chat.id] = {};
+    }
+    
     if (message.reply_to_message)
     {
         bot.getMe(function(err, res){
@@ -108,10 +113,6 @@ var bot = new Bot({
                 } else if (message.sticker && message.reply_to_message.text.search('please tell me the sticker you want to attach to the phrase: ')>=0) {
                     var str = message.reply_to_message.text;
                     var newPhrase = str.slice(62, str.length-1);
-                    if (!data[message.chat.id])
-                    {
-                        data[message.chat.id] = {};
-                    }
                     data[message.chat.id][newPhrase] = message.sticker.file_id;
                     fs.writeFile('./data.json', JSON.stringify(data), function(err) {
                         if (err) return console.log(err);
