@@ -27,7 +27,7 @@ var bot = new Bot({
 // REMOVE STICKER
 //
 .on('removesticker', function(message, args) {
-    if (args && data[message.chat.id]) {
+    if (args) {
         if (args.length > 1) {
             bot.sendMessage({
                 chat_id: message.chat.id,
@@ -91,7 +91,7 @@ var bot = new Bot({
     {
         data[message.chat.id] = {};
     }
-    
+
     if (message.reply_to_message)
     {
         bot.getMe(function(err, res){
