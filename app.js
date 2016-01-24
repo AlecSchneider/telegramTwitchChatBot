@@ -5,6 +5,9 @@ var fs = require('fs');
 var bot = new Bot({
   token: '153309606:AAHzkcWyLaBAxvHwdq_gjKzJX5XIWOqcYK0'
 })
+//
+// SHOW LIST OF ALL PHRASES IN CHAT
+//
 .on('showallstickers', function(message) {
     var str = '';
     for (key in data){
@@ -16,6 +19,53 @@ var bot = new Bot({
     }, function(err, res) {
         if(err) return console.error(err);
     });
+})
+//
+// REMOVE STICKER
+//
+.on('removesticker', function(message, args) {
+    if (args) {
+        if (args.length > 1) {
+            bot.sendMessage({
+                chat_id: message.chat.id,
+                reply_to_message_id: message.message_id,
+                text: 'please only remove one sticker at a time',
+            }, function(err, res) {
+                if(err) return console.error(err);
+            });
+        } else if (!data[args[0]]) {
+            bot.sendMessage({
+                chat_id: message.chat.id,
+                reply_to_message_id: message.message_id,
+                text: 'cannot find the Sticker',
+            }, function(err, res) {
+                if(err) return console.error(err);
+            });
+        } else {
+            delete data[args[0]];
+            fs.writeFile('./data.json', JSON.stringify(data), function(err) {
+                if (err) return console.log(err);
+                bot.sendMessage({
+                    chat_id: message.chat.id,
+                    text: 'ok, I deleted: "'+args[0]+'"',
+                }, function(err, res) {
+                    if(err) return console.error(err);
+                });
+            });
+        }
+    } else {
+        bot.sendMessage({
+            chat_id: message.chat.id,
+            text: 'please tell me the sticker you want to delete',
+            reply_to_message_id: message.message_id,
+            reply_markup: {
+                force_reply: true,
+                selective: true
+            }
+        }, function(err, res) {
+            if(err) return console.error(err);
+        });
+    }
 })
 //
 // ADD STICKER
@@ -51,8 +101,7 @@ var bot = new Bot({
                     }, function(err, res) {
                         if(err) return console.error(err);
                     });
-                }
-                else if (message.sticker && message.reply_to_message.text.search('please tell me the sticker you want to attach to the phrase: ')>=0){
+                } else if (message.sticker && message.reply_to_message.text.search('please tell me the sticker you want to attach to the phrase: ')>=0) {
                     var str = message.reply_to_message.text;
                     var newPhrase = str.slice(62, str.length-1);
                     data[newPhrase] = message.sticker.file_id;
@@ -71,6 +120,27 @@ var bot = new Bot({
                             });
                         });
                     });
+                } else if (message.reply_to_message.text == 'please tell me the sticker you want to delete') {
+                    if (!data[message.text]) {
+                        bot.sendMessage({
+                            chat_id: message.chat.id,
+                            reply_to_message_id: message.message_id,
+                            text: 'cannot find the Sticker: "'+message.text+'"',
+                        }, function(err, res) {
+                            if(err) return console.error(err);
+                        });
+                    } else {
+                        delete data[message.text];
+                        fs.writeFile('./data.json', JSON.stringify(data), function(err) {
+                            if (err) return console.log(err);
+                            bot.sendMessage({
+                                chat_id: message.chat.id,
+                                text: 'ok, I deleted: "'+message.text+'"',
+                            }, function(err, res) {
+                                if(err) return console.error(err);
+                            });
+                        });
+                    }
                 }
             }
         });
