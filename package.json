@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "app.js",
   "dependencies": {
+    "mongoose": "^4.3.7",
     "node-telegram-bot": "^0.1.9"
   }
 }
