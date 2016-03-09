@@ -19,7 +19,7 @@ var dataSchema = mongoose.Schema({
 var Data = mongoose.model('Data', dataSchema);
 
 var bot = new Bot({
-  token: '153309606:AAHzkcWyLaBAxvHwdq_gjKzJX5XIWOqcYK0'
+    token: '168724196:AAEA-dYbF_H5TkdX1LiMl938t8KjwjS5k8s'
 })
 .enableAnalytics('Bexe_:uGA-MnH-sQefPFx1RCWssJhdHd')
 //
@@ -52,7 +52,7 @@ var bot = new Bot({
 //
 // REMOVE Emote
 //
-.on('removeemote', function(message, args) {
+.on('deleteemote', function(message, args) {
     if (args) {
         if (args.length > 1) {
             bot.sendMessage({
@@ -166,7 +166,7 @@ var bot = new Bot({
                         if (index >= 0) {
                             bot.sendMessage({
                                 chat_id: message.chat.id,
-                                text: 'looks like you already have an emote connected to: "'+newPhrase+'", if you want to connect something else to it, you have to delete it first via: "/removeemote '+newPhrase+'"',
+                                text: 'looks like you already have an emote connected to: "'+newPhrase+'", if you want to connect something else to it, you have to delete it first via: "/deleteemote '+newPhrase+'"',
                             }, function(err, res) {
                                 if(err) return console.error(err);
                             });
