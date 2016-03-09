@@ -21,6 +21,7 @@ var Data = mongoose.model('Data', dataSchema);
 var bot = new Bot({
   token: '153309606:AAHzkcWyLaBAxvHwdq_gjKzJX5XIWOqcYK0'
 })
+.enableAnalytics('Bexe_:uGA-MnH-sQefPFx1RCWssJhdHd')
 //
 // SHOW LIST OF ALL Emotes
 //
