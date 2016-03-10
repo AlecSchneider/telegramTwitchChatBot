@@ -28,7 +28,7 @@ var bot = new Bot({
     bot.sendMessage({
         chat_id: message.chat.id,
         text: about,
-	disable_web_page_preview: true,
+        disable_web_page_preview: true,
     }, function(err, res) {
         if(err) return console.error(err);
     });
@@ -37,7 +37,8 @@ var bot = new Bot({
     bot.sendMessage({
         chat_id: message.chat.id,
         text: about,
-	disable_web_page_preview: true,
+        disable_web_page_preview: true,
+        disable_notification: true,
     }, function(err, res) {
         if(err) return console.error(err);
     });
@@ -54,7 +55,8 @@ var bot = new Bot({
             }
             bot.sendMessage({
                 chat_id: message.chat.id,
-                text: str
+                text: str,
+                disable_notification: true,
             }, function(err, res) {
                 if(err) return console.error(err);
             });
@@ -62,7 +64,8 @@ var bot = new Bot({
         else {
             bot.sendMessage({
                 chat_id: message.chat.id,
-                text: 'You have no Emotes, add your first Emote via /addemote'
+                text: 'You have no Emotes, add your first Emote via /addemote',
+                disable_notification: true,
             }, function(err, res) {
                 if(err) return console.error(err);
             });
@@ -79,6 +82,7 @@ var bot = new Bot({
                 chat_id: message.chat.id,
                 reply_to_message_id: message.message_id,
                 text: 'please only remove one emote at a time',
+                disable_notification: true,
             }, function(err, res) {
                 if(err) return console.error(err);
             });
@@ -103,6 +107,7 @@ var bot = new Bot({
                         bot.sendMessage({
                             chat_id: message.chat.id,
                             text: 'ok, I deleted: "'+args[0]+'"',
+                            disable_notification: true,
                         }, function(err, res) {
                             if(err) return console.error(err);
                         });
@@ -112,6 +117,7 @@ var bot = new Bot({
                         chat_id: message.chat.id,
                         reply_to_message_id: message.message_id,
                         text: 'cannot find the Emote: "'+args[0]+'"',
+                        disable_notification: true,
                     }, function(err, res) {
                         if(err) return console.error(err);
                     });
@@ -123,6 +129,7 @@ var bot = new Bot({
             chat_id: message.chat.id,
             text: 'please tell me the emote you want to delete',
             reply_to_message_id: message.message_id,
+            disable_notification: true,
             reply_markup: {
                 force_reply: true,
                 selective: true
@@ -140,6 +147,7 @@ var bot = new Bot({
         chat_id: message.chat.id,
         text: 'please tell me your phrase',
         reply_to_message_id: message.message_id,
+        disable_notification: true,
         reply_markup: {
             force_reply: true,
             selective: true
@@ -160,6 +168,7 @@ var bot = new Bot({
                         chat_id: message.chat.id,
                         reply_to_message_id: message.message_id,
                         text: 'please tell me the sticker/gif you want to attach to the phrase: "'+message.text+'"',
+                        disable_notification: true,
                         reply_markup: {
                             force_reply: true,
                             selective: true
@@ -187,6 +196,7 @@ var bot = new Bot({
                             bot.sendMessage({
                                 chat_id: message.chat.id,
                                 text: 'looks like you already have an emote connected to: "'+newPhrase+'", if you want to connect something else to it, you have to delete it first via: "/deleteemote '+newPhrase+'"',
+                                disable_notification: true,
                             }, function(err, res) {
                                 if(err) return console.error(err);
                             });
@@ -201,11 +211,13 @@ var bot = new Bot({
                                         bot.sendMessage({
                                                 chat_id: message.chat.id,
                                                 text: 'ok, I connected the phrase: "'+newPhrase+'" to your sticker: ',
+                                                disable_notification: true,
                                             }, function(err, res) {
                                                 if(err) return console.error(err);
                                                 bot.sendSticker({
                                                     chat_id: message.chat.id,
-                                                    file_id: message.sticker.file_id
+                                                    file_id: message.sticker.file_id,
+                                                    disable_notification: true,
                                                 }, function(err, res) {
                                                     if(err) return console.error(err);
                                                 });
@@ -221,11 +233,13 @@ var bot = new Bot({
                                         bot.sendMessage({
                                                 chat_id: message.chat.id,
                                                 text: 'ok, I connected the phrase: "'+newPhrase+'" to your gif: ',
+                                                disable_notification: true,
                                             }, function(err, res) {
                                                 if(err) return console.error(err);
                                                 bot.sendDocument({
                                                     chat_id: message.chat.id,
                                                     file_id: message.document.file_id,
+                                                    disable_notification: true,
                                                 }, function(err, res) {
                                                     if(err) return console.error(err);
                                                 });
@@ -257,6 +271,7 @@ var bot = new Bot({
                                 bot.sendMessage({
                                     chat_id: message.chat.id,
                                     text: 'ok, I deleted: "'+message.text+'"',
+                                    disable_notification: true,
                                 }, function(err, res) {
                                     if(err) return console.error(err);
                                 });
@@ -266,6 +281,7 @@ var bot = new Bot({
                                 chat_id: message.chat.id,
                                 reply_to_message_id: message.message_id,
                                 text: 'cannot find the Emote: "'+message.text+'"',
+                                disable_notification: true,
                             }, function(err, res) {
                                 if(err) return console.error(err);
                             });
@@ -294,7 +310,8 @@ var bot = new Bot({
                                 if(emote.data_type == 'sticker') {
                                     bot.sendSticker({
                                         chat_id: message.chat.id,
-                                        file_id: emote.file_id
+                                        file_id: emote.file_id,
+                                        disable_notification: true,
                                     }, function(err, res) {
                                         if(err) return console.error(err);
                                     });
@@ -303,7 +320,8 @@ var bot = new Bot({
                                 } else if (emote.data_type == 'gif') {
                                     bot.sendDocument({
                                         chat_id: message.chat.id,
-                                        file_id: emote.file_id
+                                        file_id: emote.file_id,
+                                        disable_notification: true,
                                     }, function(err, res) {
                                         if(err) return console.error(err);
                                     });
