@@ -1,6 +1,8 @@
 var Bot = require('node-telegram-bot');
-var about = require('./about.json');
 var fs = require('fs');
+
+var about = fs.readFileSync('./about.txt', "utf8");;
+
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
@@ -25,7 +27,7 @@ var bot = new Bot({
 .on('start', function(message) {
     bot.sendMessage({
         chat_id: message.chat.id,
-        text: about.text,
+        text: about,
     }, function(err, res) {
         if(err) return console.error(err);
     });
@@ -33,7 +35,7 @@ var bot = new Bot({
 .on('about', function(message) {
     bot.sendMessage({
         chat_id: message.chat.id,
-        text: about.text,
+        text: about,
     }, function(err, res) {
         if(err) return console.error(err);
     });

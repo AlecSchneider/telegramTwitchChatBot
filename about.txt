@@ -1,4 +1,4 @@
-{"text":"This bot connects phrases to stickers/gifs. \n
+This bot connects phrases to stickers/gifs. \n
 So when someone writes the phrase in your group the bot will send the sitcker/gif. \n
 Start NOW by adding your first Emote via /addemote \n
 \n
@@ -8,4 +8,4 @@ Feedback or Contact via Twitter or: square0ne@me.com \n
 If you want to support me: \n
 - please rate the bot: telegram.me/storebot?start=emotechatbot \n
 - share the bot via: telegram.me/emotechatbot \n
-- or donate via: paypal.me/Square0ne \n" }
+- or donate via: paypal.me/Square0ne \n
