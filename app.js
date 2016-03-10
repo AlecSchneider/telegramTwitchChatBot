@@ -191,7 +191,7 @@ var bot = new Bot({
                                                 });
                                         });
                                 });
-                            } else if (message.document.mime_type == 'video/mp4') {
+                            } else if (message.document && message.document.mime_type == 'video/mp4') {
                                 Data.update(
                                     {chat_id: message.chat.id},
                                     {$push: {emotes: {phrase: newPhrase, data_type: 'gif', file_id: message.document.file_id}}},
