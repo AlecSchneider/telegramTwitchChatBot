@@ -28,6 +28,7 @@ var bot = new Bot({
     bot.sendMessage({
         chat_id: message.chat.id,
         text: about,
+	disable_web_page_preview: true,
     }, function(err, res) {
         if(err) return console.error(err);
     });
@@ -36,6 +37,7 @@ var bot = new Bot({
     bot.sendMessage({
         chat_id: message.chat.id,
         text: about,
+	disable_web_page_preview: true,
     }, function(err, res) {
         if(err) return console.error(err);
     });
