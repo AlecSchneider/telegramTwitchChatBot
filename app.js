@@ -1,5 +1,5 @@
 var Bot = require('node-telegram-bot');
-var data = require('./data.json');
+var about = require('./about.txt');
 var fs = require('fs');
 
 var mongoose = require('mongoose');
@@ -22,6 +22,22 @@ var bot = new Bot({
     token: '168724196:AAEA-dYbF_H5TkdX1LiMl938t8KjwjS5k8s'
 })
 .enableAnalytics('Bexe_:uGA-MnH-sQefPFx1RCWssJhdHd')
+.on('start', function(message) {
+    bot.sendMessage({
+        chat_id: message.chat.id,
+        text: about,
+    }, function(err, res) {
+        if(err) return console.error(err);
+    });
+})
+.on('about', function(message) {
+    bot.sendMessage({
+        chat_id: message.chat.id,
+        text: about,
+    }, function(err, res) {
+        if(err) return console.error(err);
+    });
+})
 //
 // SHOW LIST OF ALL Emotes
 //
