@@ -248,7 +248,7 @@ var bot = new Bot({
                             } else {
                                 bot.sendMessage({
                                         chat_id: message.chat.id,
-                                        text: 'sorry, due to telegrams way of handling files you can only connect to stickers / gifs (up to 15 MB). You cannot connect to photos / videos / text / emoticons as of now.',
+                                        text: 'sorry, due to telegrams way of handling files you can only use to stickers / gifs (up to 15 MB). You cannot use to photos / videos / text / emoticons as of now.',
                                         disable_notification: true,
                                     }, function(err, res) {
                                         if(err) return console.error(err);
