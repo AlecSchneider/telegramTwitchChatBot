@@ -23,7 +23,7 @@ var Data = mongoose.model('Data', dataSchema);
 var bot = new Bot({
     token: '168724196:AAEA-dYbF_H5TkdX1LiMl938t8KjwjS5k8s'
 })
-.enableAnalytics('Bexe_:uGA-MnH-sQefPFx1RCWssJhdHd')
+.enableAnalytics('iXQDxy5D4y8C8EsCZfuzdmR1DzHwiHu9')
 .on('start', function(message) {
     bot.sendMessage({
         chat_id: message.chat.id,
