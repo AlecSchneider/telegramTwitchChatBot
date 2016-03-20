@@ -80,7 +80,7 @@ var bot = new Bot({
     Data.findOne({chat_id: 1337}, 'emotes', function(err, data) {
         Data.update(
             {chat_id: message.chat.id},
-            {$addToSet: {emotes: data.emotes}},
+            {$addToSet: {emotes: {$each: data.emotes}}},
             {upsert: true},
             function (err) {
                 if (err) return console.log(err);
