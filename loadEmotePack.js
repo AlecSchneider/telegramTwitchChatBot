@@ -19,10 +19,9 @@ var Data = mongoose.model('Data', dataSchema);
 Data.findOne({chat_id: myID}, 'emotes', function(err, data) {
     Data.update(
         {chat_id: 1337},
-        {$pushAll: {emotes: data.emotes},
+        {$addToSetT: {emotes: data.emotes}},
         {upsert: true},
         function (err) {
             if (err) return console.log(err);
-            });
     });
 });

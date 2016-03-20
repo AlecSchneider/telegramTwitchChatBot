@@ -74,6 +74,27 @@ var bot = new Bot({
     });
 })
 //
+// install pre configured
+//
+.on('installemotes', function(message) {
+    Data.findOne({chat_id: 1337}, 'emotes', function(err, data) {
+        Data.update(
+            {chat_id: messag.chat.id},
+            {$addToSetT: {emotes: data.emotes}},
+            {upsert: true},
+            function (err) {
+                if (err) return console.log(err);
+                bot.sendMessage({
+                    chat_id: message.chat.id,
+                    text: 'installed some Emotes for you, see them with /showallemotes',
+                    disable_notification: true,
+                }, function(err, res) {
+                    if(err) return console.error(err);
+                });
+        });
+    });
+})
+//
 // REMOVE Emote
 //
 .on('deleteemote', function(message, args) {
