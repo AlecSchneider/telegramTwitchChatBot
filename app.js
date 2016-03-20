@@ -79,8 +79,8 @@ var bot = new Bot({
 .on('installemotes', function(message) {
     Data.findOne({chat_id: 1337}, 'emotes', function(err, data) {
         Data.update(
-            {chat_id: messag.chat.id},
-            {$addToSetT: {emotes: data.emotes}},
+            {chat_id: message.chat.id},
+            {$addToSet: {emotes: data.emotes}},
             {upsert: true},
             function (err) {
                 if (err) return console.log(err);

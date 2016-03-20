@@ -1,0 +1,5 @@
+showallemotes - list all your emotes
+addemote - add a new emote
+deleteemote - delete an existing emote
+installemotes - install our pre-configured package of emotes
+about - get some general information

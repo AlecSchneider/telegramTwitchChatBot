@@ -1,11 +1,10 @@
 This bot connects phrases to stickers/gifs.
 So when someone writes the phrase in your group the bot will send the sitcker/gif.
 Start NOW by adding your first Emote via /addemote.
-
-Follow me on Twitter: @Alec2609
-Feedback or Contact via Twitter or: square0ne@me.com
+OR installing our pre-configured package of the best emotes your know from your favorite stream sites via /installemotes.
 
 If you want to support me:
-- please rate the bot: telegram.me/storebot?start=emotechatbot
-- share the bot via: telegram.me/emotechatbot
+- follow me on twitter: https://goo.gl/UU33nq
+- please rate the bot: http://goo.gl/RTjxlU
+- share the bot via: http://goo.gl/QtLxFg
 - or donate via: paypal.me/Square0ne
