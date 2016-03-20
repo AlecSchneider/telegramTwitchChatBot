@@ -1,7 +1,7 @@
 var Bot = require('node-telegram-bot');
 var fs = require('fs');
 
-var about = fs.readFileSync('./about.txt', "utf8");;
+var about = fs.readFileSync('./about.txt', "utf8");
 
 
 var mongoose = require('mongoose');
@@ -23,7 +23,7 @@ var Data = mongoose.model('Data', dataSchema);
 var bot = new Bot({
     token: '168724196:AAEA-dYbF_H5TkdX1LiMl938t8KjwjS5k8s'
 })
-.enableAnalytics('iXQDxy5D4y8C8EsCZfuzdmR1DzHwiHu9')
+.enableAnalytics('E:C3zicbJEILfdKoISNvE4tIXq6Gicnp')
 .on('start', function(message) {
     bot.sendMessage({
         chat_id: message.chat.id,
@@ -50,6 +50,7 @@ var bot = new Bot({
     Data.findOne({chat_id: message.chat.id}, 'emotes', function(err, data) {
         if (data) {
             var str = '';
+            data.emotes.sort();
             for (var i = 0; i < data.emotes.length; i++){
                 str += data.emotes[i].phrase+" \n"
             }
