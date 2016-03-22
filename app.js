@@ -84,6 +84,7 @@ var bot = new Bot({
             {upsert: true},
             function (err) {
                 if (err) return console.log(err);
+                this.analytics.track(message, 'install Emote Pack');
                 bot.sendMessage({
                     chat_id: message.chat.id,
                     text: 'installed some Emotes for you, see them with /showallemotes',
@@ -230,6 +231,7 @@ var bot = new Bot({
                                     {upsert: true},
                                     function (err) {
                                         if (err) return console.log(err);
+                                        this.analytics.track(message, 'new Sticker Emote');
                                         bot.sendMessage({
                                                 chat_id: message.chat.id,
                                                 text: 'ok, I connected the phrase: "'+newPhrase+'" to your sticker: ',
@@ -252,6 +254,7 @@ var bot = new Bot({
                                     {upsert: true},
                                     function (err) {
                                         if (err) return console.log(err);
+                                        this.analytics.track(message, 'new Gif Emote');
                                         bot.sendMessage({
                                                 chat_id: message.chat.id,
                                                 text: 'ok, I connected the phrase: "'+newPhrase+'" to your gif: ',
@@ -338,6 +341,7 @@ var bot = new Bot({
                             if (((found == 0)||(str[found-1] == ' '))&&((found+emote.phrase.length == str.length)||(str[found+emote.phrase.length] == ' ')))
                             {
                                 if(emote.data_type == 'sticker') {
+                                    this.analytics.track(message, 'send Sticker Emote');
                                     bot.sendSticker({
                                         chat_id: message.chat.id,
                                         file_id: emote.file_id,
@@ -348,6 +352,7 @@ var bot = new Bot({
                                     str = str.replace(emote.phrase,'');
                                     console.log(" \n send sticker: "+emote.phrase+" \n")
                                 } else if (emote.data_type == 'gif') {
+                                    this.analytics.track(message, 'send Sticker Emote');
                                     bot.sendDocument({
                                         chat_id: message.chat.id,
                                         file_id: emote.file_id,
