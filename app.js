@@ -25,6 +25,7 @@ var bot = new Bot({
 })
 .enableAnalytics('E:C3zicbJEILfdKoISNvE4tIXq6Gicnp')
 .on('start', function(message) {
+    this.analytics.track(message, 'start');
     bot.sendMessage({
         chat_id: message.chat.id,
         text: about,
@@ -34,6 +35,7 @@ var bot = new Bot({
     });
 })
 .on('about', function(message) {
+    this.analytics.track(message, 'about');
     bot.sendMessage({
         chat_id: message.chat.id,
         text: about,
@@ -47,6 +49,7 @@ var bot = new Bot({
 // SHOW LIST OF ALL Emotes
 //
 .on('showallemotes', function(message) {
+    this.analytics.track(message, 'showallemotes');
     Data.findOne({chat_id: message.chat.id}, 'emotes', function(err, data) {
         if (data) {
             var str = '';
@@ -77,6 +80,7 @@ var bot = new Bot({
 // install pre configured
 //
 .on('installemotes', function(message) {
+    this.analytics.track(message, 'installemotes');
     Data.findOne({chat_id: 1337}, 'emotes', function(err, data) {
         Data.update(
             {chat_id: message.chat.id},
@@ -98,6 +102,7 @@ var bot = new Bot({
 // REMOVE Emote
 //
 .on('deleteemote', function(message, args) {
+    var botObj = this;
     if (args) {
         if (args.length > 1) {
             bot.sendMessage({
@@ -132,6 +137,7 @@ var bot = new Bot({
                             disable_notification: true,
                         }, function(err, res) {
                             if(err) return console.error(err);
+                            botObj.analytics.track(message, 'deleted Emote');
                         });
                     })
                 } else {
@@ -179,6 +185,7 @@ var bot = new Bot({
     });
 })
 .on('message', function (message) {
+    var botObj = this;
     if (message.reply_to_message)
     {
         bot.getMe(function(err, res){
@@ -236,6 +243,7 @@ var bot = new Bot({
                                                 disable_notification: true,
                                             }, function(err, res) {
                                                 if(err) return console.error(err);
+                                                botObj.analytics.track(message, 'add Sticker');
                                                 bot.sendSticker({
                                                     chat_id: message.chat.id,
                                                     file_id: message.sticker.file_id,
@@ -258,6 +266,7 @@ var bot = new Bot({
                                                 disable_notification: true,
                                             }, function(err, res) {
                                                 if(err) return console.error(err);
+                                                botObj.analytics.track(message, 'add gif');
                                                 bot.sendDocument({
                                                     chat_id: message.chat.id,
                                                     file_id: message.document.file_id,
@@ -274,6 +283,7 @@ var bot = new Bot({
                                         disable_notification: true,
                                     }, function(err, res) {
                                         if(err) return console.error(err);
+                                        botObj.analytics.track(message, 'not supported file');
                                 });
                             }
                         }
@@ -303,6 +313,7 @@ var bot = new Bot({
                                     text: 'ok, I deleted: "'+message.text+'"',
                                     disable_notification: true,
                                 }, function(err, res) {
+                                    botObj.analytics.track(message, 'deleted Emote');
                                     if(err) return console.error(err);
                                 });
                             })
@@ -344,9 +355,9 @@ var bot = new Bot({
                                         disable_notification: true,
                                     }, function(err, res) {
                                         if(err) return console.error(err);
+                                        botObj.analytics.track(message, 'send sticker');
                                     });
                                     str = str.replace(emote.phrase,'');
-                                    console.log(" \n send sticker: "+emote.phrase+" \n")
                                 } else if (emote.data_type == 'gif') {
                                     bot.sendDocument({
                                         chat_id: message.chat.id,
@@ -354,9 +365,9 @@ var bot = new Bot({
                                         disable_notification: true,
                                     }, function(err, res) {
                                         if(err) return console.error(err);
+                                        botObj.analytics.track(message, 'send gif');
                                     });
                                     str = str.replace(emote.phrase,'');
-                                    console.log(" \n send gif: "+emote.phrase+" \n")
                                 }
                             }
                         } else {
@@ -367,5 +378,10 @@ var bot = new Bot({
             }
         });
     }
+})
+.on('test', function(message) {
+    console.log(this);
+    console.log(this.analytics);
+    this.analytics.track(message, 'start');
 })
 .start();
