@@ -205,7 +205,7 @@ var bot = new Bot({
                     }, function(err, res) {
                         if(err) return console.error(err);
                     });
-                } else if (message.reply_to_message.text.indexOf('please tell me the sticker/gif you want to attach to the phrase: ')>=0) {
+                } else if (message.reply_to_message.text.indexOf('please tell me the sticker/gif/photo you want to attach to the phrase: ')>=0) {
                     Data.findOne({'chat_id': message.chat.id}, 'emotes', function (err, data) {
                         if (err) return console.log(err);
                         var str = message.reply_to_message.text;
