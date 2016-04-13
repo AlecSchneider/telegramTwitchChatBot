@@ -276,6 +276,29 @@ var bot = new Bot({
                                                 });
                                         });
                                 });
+                            } else if (message.document && message.document.mime_type == 'photo') {
+                                Data.update(
+                                    {chat_id: message.chat.id},
+                                    {$push: {emotes: {phrase: newPhrase, data_type: 'photo', file_id: message.document.file_id}}},
+                                    {upsert: true},
+                                    function (err) {
+                                        if (err) return console.log(err);
+                                        bot.sendMessage({
+                                                chat_id: message.chat.id,
+                                                text: 'ok, I connected the phrase: "'+newPhrase+'" to your photo: ',
+                                                disable_notification: true,
+                                            }, function(err, res) {
+                                                if(err) return console.error(err);
+                                                botObj.analytics.track(message, 'add photo');
+                                                bot.sendDocument({
+                                                    chat_id: message.chat.id,
+                                                    file_id: message.document.file_id,
+                                                    disable_notification: true,
+                                                }, function(err, res) {
+                                                    if(err) return console.error(err);
+                                                });
+                                        });
+                                });
                             } else {
                                 bot.sendMessage({
                                         chat_id: message.chat.id,
@@ -366,6 +389,16 @@ var bot = new Bot({
                                     }, function(err, res) {
                                         if(err) return console.error(err);
                                         botObj.analytics.track(message, 'send gif');
+                                    });
+                                    str = str.replace(emote.phrase,'');
+                                } else if (emote.data_type == 'photo') {
+                                    bot.sendDocument({
+                                        chat_id: message.chat.id,
+                                        file_id: emote.file_id,
+                                        disable_notification: true,
+                                    }, function(err, res) {
+                                        if(err) return console.error(err);
+                                        botObj.analytics.track(message, 'send photo');
                                     });
                                     str = str.replace(emote.phrase,'');
                                 }
