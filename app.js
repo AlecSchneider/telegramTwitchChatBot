@@ -276,10 +276,10 @@ var bot = new Bot({
                                                 });
                                         });
                                 });
-                            } else if (message.document && message.document.mime_type == 'photo') {
+                            } else if (message.photo) {
                                 Data.update(
                                     {chat_id: message.chat.id},
-                                    {$push: {emotes: {phrase: newPhrase, data_type: 'photo', file_id: message.document.file_id}}},
+                                    {$push: {emotes: {phrase: newPhrase, data_type: 'photo', file_id: message.photo.file_id}}},
                                     {upsert: true},
                                     function (err) {
                                         if (err) return console.log(err);
@@ -290,7 +290,7 @@ var bot = new Bot({
                                             }, function(err, res) {
                                                 if(err) return console.error(err);
                                                 botObj.analytics.track(message, 'add photo');
-                                                bot.sendDocument({
+                                                bot.sendPhoto({
                                                     chat_id: message.chat.id,
                                                     file_id: message.document.file_id,
                                                     disable_notification: true,
@@ -392,7 +392,7 @@ var bot = new Bot({
                                     });
                                     str = str.replace(emote.phrase,'');
                                 } else if (emote.data_type == 'photo') {
-                                    bot.sendDocument({
+                                    bot.sendPhoto({
                                         chat_id: message.chat.id,
                                         file_id: emote.file_id,
                                         disable_notification: true,
