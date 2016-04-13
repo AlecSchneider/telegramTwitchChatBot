@@ -209,7 +209,7 @@ var bot = new Bot({
                     Data.findOne({'chat_id': message.chat.id}, 'emotes', function (err, data) {
                         if (err) return console.log(err);
                         var str = message.reply_to_message.text;
-                        var newPhrase = str.slice(66, str.length-1);
+                        var newPhrase = str.slice(72, str.length-1);
                         var index = -1;
                         if (data)
                         {
