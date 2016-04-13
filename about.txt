@@ -1,5 +1,5 @@
-This bot connects phrases to stickers/gifs.
-So when someone writes the phrase in your group the bot will send the sitcker/gif.
+This bot connects phrases to stickers/gifs/photos.
+So when someone writes the phrase in your group the bot will send the sitcker/gif/photo.
 Start NOW by adding your first Emote via /addemote.
 OR installing our pre-configured package of the best emotes your know from your favorite stream sites via /installemotes.
 

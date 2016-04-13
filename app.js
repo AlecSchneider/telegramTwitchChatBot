@@ -196,7 +196,7 @@ var bot = new Bot({
                     bot.sendMessage({
                         chat_id: message.chat.id,
                         reply_to_message_id: message.message_id,
-                        text: 'please tell me the sticker/gif you want to attach to the phrase: "'+message.text+'"',
+                        text: 'please tell me the sticker/gif/photo you want to attach to the phrase: "'+message.text+'"',
                         disable_notification: true,
                         reply_markup: {
                             force_reply: true,
@@ -302,7 +302,7 @@ var bot = new Bot({
                             } else {
                                 bot.sendMessage({
                                         chat_id: message.chat.id,
-                                        text: 'sorry, due to telegrams way of handling files you can only use stickers / gifs (up to 15 MB). You cannot use photos / videos / text / emoticons as of now.',
+                                        text: 'sorry, due to telegrams way of handling files you can only use stickers / photos / gifs (up to 15 MB). You cannot use videos / text / emoticons / audio as of now.',
                                         disable_notification: true,
                                     }, function(err, res) {
                                         if(err) return console.error(err);
